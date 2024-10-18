@@ -2,16 +2,13 @@
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace ConsoleApp1
 {
     internal class Program
     {
+        [STAThread]
         private static void Main(string[] args)
         {
             WindowsDriver driver;
@@ -36,11 +33,17 @@ namespace ConsoleApp1
             driver.FindElement(By.XPath("//*[@Name= ' File    ']")).Click();
             driver.FindElement(By.XPath("//*[@Name= 'Open...\tCtrl+O']")).Click();
             driver.FindElement(By.XPath("//*[@AutomationId='1001']")).Click();
-            driver.FindElement(By.XPath("//*[@Name= 'Address']")).SendKeys(@"C:\Users\IAB\Desktop\TS_Export");
+
+            // Копируем текст в буфер обмена
+
+            SetClipboardAndPaste(driver, "//*[@Name= 'Address']", @"C:\Users\IAB\Desktop\TS_Export");
+
             driver.FindElement(By.XPath("//*[@AutomationId= '41477']")).SendKeys(Keys.Return);
-            driver.FindElement(By.XPath("//*[@AutomationId= '1148']")).SendKeys($@"Mark15_inducer.axx");
+
+            SetClipboardAndPaste(driver, "//*[@AutomationId= '1148']", @"Mark15_inducer.axx");
+
             driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'Open']")).Click();
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); // задержка 10 сек
             driver.FindElement(By.XPath("//*[@Name= 'Viewer']")).Click();
 
             // кнопка с 3D видом
@@ -49,13 +52,13 @@ namespace ConsoleApp1
             element.Click();
             element.SendKeys(Keys.Shift + Keys.F10); // замена ПКМ
 
-            //var DesktopSession = new AppiumServiceBuilder()
-            //    .UsingPort(4723)
-            //    .Build();
-            //DesktopSession.Start();
-            //AppiumOptions DesktopCapabilities = new AppiumOptions();
-            //DesktopCapabilities.App = "Root";
-            //DesktopCapabilities.AutomationName = "Windows";
+            /* //var DesktopSession = new AppiumServiceBuilder()
+             //    .UsingPort(4723)
+             //    .Build();
+             //DesktopSession.Start();
+             //AppiumOptions DesktopCapabilities = new AppiumOptions();
+             //DesktopCapabilities.App = "Root";
+             //DesktopCapabilities.AutomationName = "Windows";*/
             WindowsDriver driver2 = ContextWindow();
 
             var addWatcherElement = driver2.FindElement(By.XPath("//*[@Name= 'Export ...']"));
@@ -67,9 +70,10 @@ namespace ConsoleApp1
 
             driver.FindElement(By.XPath("//*[@Name= 'TurboGrid (CFX, FLUENT)']")).Click();
             driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
-
             driver.FindElement(MobileBy.XPath("/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar")).Click();
-            driver.FindElement(By.XPath("//*[@Name= 'Address']")).SendKeys(@"D:\EXPORT_IMPORT\New folder");
+
+            SetClipboardAndPaste(driver, "//*[@Name= 'Address']", @"D:\EXPORT_IMPORT\New folder");
+            //driver.FindElement(By.XPath("//*[@Name= 'Address']")).SendKeys(@"D:\EXPORT_IMPORT\New folder");
             driver.FindElement(By.XPath("//*[@AutomationId= '41477']")).SendKeys(Keys.Return);
 
             driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
@@ -138,6 +142,14 @@ namespace ConsoleApp1
             DesktopCapabilities.AutomationName = "Windows";
 
             return new WindowsDriver(DesktopSession, DesktopCapabilities);
+        }
+
+        private static void SetClipboardAndPaste(WindowsDriver driver, string xpath, string text)
+        {
+            System.Windows.Forms.Clipboard.SetText(text);
+            var element = driver.FindElement(By.XPath(xpath));
+            element.Click();
+            element.SendKeys(Keys.Control + "v");
         }
     }
 }
