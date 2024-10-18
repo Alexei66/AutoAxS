@@ -48,38 +48,22 @@ namespace ConsoleApp1
 
             // кнопка с 3D видом
 
-            var element = driver.FindElement(By.XPath("//*[@AutomationId='59664']"));
-            element.Click();
-            element.SendKeys(Keys.Shift + Keys.F10); // замена ПКМ
-
-            /* //var DesktopSession = new AppiumServiceBuilder()
-             //    .UsingPort(4723)
-             //    .Build();
-             //DesktopSession.Start();
-             //AppiumOptions DesktopCapabilities = new AppiumOptions();
-             //DesktopCapabilities.App = "Root";
-             //DesktopCapabilities.AutomationName = "Windows";*/
-            WindowsDriver driver2 = ContextWindow();
-
-            var addWatcherElement = driver2.FindElement(By.XPath("//*[@Name= 'Export ...']"));
-            //WebDriverWait Desktopwait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //Desktopwait.Until(pred => AddWatcherElement.Displayed);                           // задержка пока что-то не откроется
-            addWatcherElement.Click();
-
             /////////TurboGrid (CFX, FLUENT)/////////
 
-            driver.FindElement(By.XPath("//*[@Name= 'TurboGrid (CFX, FLUENT)']")).Click();
-            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
-            driver.FindElement(MobileBy.XPath("/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar")).Click();
+            //FindExportButton(driver);
+            //driver.FindElement(By.XPath("//*[@Name= 'TurboGrid (CFX, FLUENT)']")).Click();
+            //driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+            //driver.FindElement(MobileBy.XPath("/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar")).Click();
 
-            SetClipboardAndPaste(driver, "//*[@Name= 'Address']", @"D:\EXPORT_IMPORT\New folder");
-            //driver.FindElement(By.XPath("//*[@Name= 'Address']")).SendKeys(@"D:\EXPORT_IMPORT\New folder");
-            driver.FindElement(By.XPath("//*[@AutomationId= '41477']")).SendKeys(Keys.Return);
+            //SetClipboardAndPaste(driver, "//*[@Name= 'Address']", @"D:\EXPORT_IMPORT\New folder");
+            ////driver.FindElement(By.XPath("//*[@Name= 'Address']")).SendKeys(@"D:\EXPORT_IMPORT\New folder");
+            //driver.FindElement(By.XPath("//*[@AutomationId= '41477']")).SendKeys(Keys.Return);
 
-            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
-            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
+            //driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            //driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
 
             /////////Gambit (FLUENT)/////////
+            FindExportButton(driver);
 
             driver.FindElement(By.XPath("//*[@Name= 'Gambit (FLUENT)']")).Click();
 
@@ -130,18 +114,25 @@ namespace ConsoleApp1
             //driver.Quit();
         }
 
-        private static WindowsDriver ContextWindow()
+        private static void FindExportButton(WindowsDriver driver)
         {
+            var element = driver.FindElement(By.XPath("//*[@AutomationId='59664']"));
+            element.Click();
+            element.SendKeys(Keys.Shift + Keys.F10); // замена ПКМ
+
             var DesktopSession = new AppiumServiceBuilder()
                 .UsingPort(4723)
                 .Build();
             DesktopSession.Start();
-
             AppiumOptions DesktopCapabilities = new AppiumOptions();
             DesktopCapabilities.App = "Root";
             DesktopCapabilities.AutomationName = "Windows";
+            WindowsDriver driver2 = new WindowsDriver(DesktopSession, DesktopCapabilities);
 
-            return new WindowsDriver(DesktopSession, DesktopCapabilities);
+            var addWatcherElement = driver2.FindElement(By.XPath("//*[@Name= 'Export ...']"));
+            //WebDriverWait Desktopwait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //Desktopwait.Until(pred => AddWatcherElement.Displayed);                           // задержка пока что-то не откроется
+            addWatcherElement.Click();
         }
 
         private static void SetClipboardAndPaste(WindowsDriver driver, string xpath, string text)
