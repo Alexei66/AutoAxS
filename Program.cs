@@ -45,8 +45,8 @@ namespace ConsoleApp1
 
             // TODO добавить кнопку с включением 3D вида
 
+            /*
             /////////TurboGrid (CFX, FLUENT)/////////
-
             FindExportButton(driver);
 
             driver.FindElement(By.XPath("//*[@Name= 'TurboGrid (CFX, FLUENT)']")).Click();
@@ -81,20 +81,14 @@ namespace ConsoleApp1
 
             /////////3D Components/////////
 
-            FindExportButton(driver);
-            driver.FindElement(By.XPath("//*[@Name= '3D Components']")).Click();
-            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+            Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (4)", "*.igs (Trimmed surface)");
 
-            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (4)");
+            Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (5)", "*.igs (BREP representation)");
 
-            driver.FindElement(By.XPath("//*[@AutomationId= 'DropDown']")).Click();
-            driver.FindElement(By.XPath("//*[@Name= '*.igs (Trimmed surface)']")).Click();
-            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
+            Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (6)", "*.step");
 
-            //driver.FindElement(By.XPath("//*[@Name= '*.igs (BREP representation)']")).Click();
-            //driver.FindElement(By.XPath("//*[@Name= '*.step']")).Click();
-            //driver.FindElement(By.XPath("//*[@Name= '*.step']")).Click();
-
+            Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (7)", "*.stl");
+            */
             /////////Geometry for External CFD/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'Geometry for External CFD']")).Click();
@@ -132,6 +126,35 @@ namespace ConsoleApp1
             driver.FindElement(By.XPath("//*[@Name= 'ANSYS WorkBench']")).Click();
 
             //driver.Quit();
+        }
+
+        private static void Exp3DComponents(WindowsDriver driver, string savePath, string fileType)
+        {
+            FindExportButton(driver);
+
+            driver.FindElement(By.XPath("//*[@Name= '3D Components']")).Click();
+            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", savePath);
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            driver.FindElement(MobileBy.XPath("/Window/Window/ComboBox[2]/Button")).Click();
+
+            var DesktopSession = new AppiumServiceBuilder()
+                .UsingPort(4723)
+                .Build();
+            DesktopSession.Start();
+            AppiumOptions DesktopCapabilities = new AppiumOptions();
+            DesktopCapabilities.App = "Root";
+            DesktopCapabilities.AutomationName = "Windows";
+            WindowsDriver driver2 = new WindowsDriver(DesktopSession, DesktopCapabilities);
+
+            // Выбор формата *.igs (Trimmed surface)
+            var addWatcherElement = driver2.FindElement(By.XPath($"//*[@Name= '{fileType}']"));
+            addWatcherElement.Click();
+
+            // Нажимаем ОК
+            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
         }
 
         private static void FindExportButton(WindowsDriver driver)
