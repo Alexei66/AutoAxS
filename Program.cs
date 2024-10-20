@@ -90,8 +90,12 @@ namespace ConsoleApp1
             Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (7)", "*.stl");
             */
             /////////Geometry for External CFD/////////
-            FindExportButton(driver);
-            driver.FindElement(By.XPath("//*[@Name= 'Geometry for External CFD']")).Click();
+
+            ExpExternalCFD(driver, @"D:\EXPORT_IMPORT\New folder\New folder (8)", "*.igs (Trimmed surface)");
+            ExpExternalCFD(driver, @"D:\EXPORT_IMPORT\New folder\New folder (9)", "*.igs (BREP representation)");
+            ExpExternalCFD(driver, @"D:\EXPORT_IMPORT\New folder\New folder (10)", "*.step");
+            ExpExternalCFD(driver, @"D:\EXPORT_IMPORT\New folder\New folder (11)", "*.stL");
+            ExpExternalCFD(driver, @"D:\EXPORT_IMPORT\New folder\New folder (12)", "*.xml(NDF file)");
 
             /////////STL/////////
             FindExportButton(driver);
@@ -149,11 +153,36 @@ namespace ConsoleApp1
             DesktopCapabilities.AutomationName = "Windows";
             WindowsDriver driver2 = new WindowsDriver(DesktopSession, DesktopCapabilities);
 
-            // Выбор формата *.igs (Trimmed surface)
             var addWatcherElement = driver2.FindElement(By.XPath($"//*[@Name= '{fileType}']"));
             addWatcherElement.Click();
 
-            // Нажимаем ОК
+            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
+        }
+
+        private static void ExpExternalCFD(WindowsDriver driver, string savePath, string fileType)
+        {
+            FindExportButton(driver);
+
+            driver.FindElement(By.XPath("//*[@Name= 'Geometry for External CFD']")).Click();
+            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", savePath);
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            driver.FindElement(MobileBy.XPath("/Window/Window/ComboBox[1]/Button")).Click();
+
+            var DesktopSession = new AppiumServiceBuilder()
+                .UsingPort(4723)
+                .Build();
+            DesktopSession.Start();
+            AppiumOptions DesktopCapabilities = new AppiumOptions();
+            DesktopCapabilities.App = "Root";
+            DesktopCapabilities.AutomationName = "Windows";
+            WindowsDriver driver2 = new WindowsDriver(DesktopSession, DesktopCapabilities);
+
+            var addWatcherElement = driver2.FindElement(By.XPath($"//*[@Name= '{fileType}']"));
+            addWatcherElement.Click();
+
             driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
         }
 
