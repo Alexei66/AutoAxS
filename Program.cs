@@ -2,9 +2,7 @@
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Support.UI;
 using System;
-using System.Threading;
 
 namespace ConsoleApp1
 {
@@ -30,6 +28,8 @@ namespace ConsoleApp1
             //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             //Thread.Sleep(2000);
 
+            var fileName = "Mark15_inducer";
+
             driver.Manage().Window.Maximize();
 
             driver.FindElement(By.XPath("//*[@Name= ' File    ']")).Click();
@@ -37,7 +37,7 @@ namespace ConsoleApp1
 
             SetClipboardAndPaste(driver, "//*[@AutomationId='1001']", @"C:\Users\IAB\Desktop\TS_Export");
 
-            SetClipboardAndPaste(driver, "//*[@AutomationId= '1148']", @"Mark15_inducer.axx");
+            SetClipboardAndPaste(driver, "//*[@AutomationId= '1148']", $@"{fileName}.axx");
 
             driver.FindElement(By.XPath("//*[@Name= 'Viewer']")).Click();
 
@@ -45,7 +45,6 @@ namespace ConsoleApp1
 
             // TODO добавить кнопку с включением 3D вида
 
-            /*
             /////////TurboGrid (CFX, FLUENT)/////////
             FindExportButton(driver);
 
@@ -88,7 +87,7 @@ namespace ConsoleApp1
             Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (6)", "*.step");
 
             Exp3DComponents(driver, @"D:\EXPORT_IMPORT\New folder\New folder (7)", "*.stl");
-            */
+
             /////////Geometry for External CFD/////////
 
             ExpExternalCFD(driver, @"D:\EXPORT_IMPORT\New folder\New folder (8)", "*.igs (Trimmed surface)");
@@ -100,36 +99,84 @@ namespace ConsoleApp1
             /////////STL/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'STL']")).Click();
+            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (13)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
 
             /////////ProE IBL/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'ProE IBL']")).Click();
+            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (14)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
 
             /////////AxCFD/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'AxCFD']")).Click();
 
+            SetClipboardAndPaste(driver, "/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (15)");
+
+            SetClipboardAndPaste(driver, "//*[@Name= 'File name:' and @AutomationId= '1001']", fileName);
+
             /////////esTurbo (Star-CCM+)/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'esTurbo (Star-CCM+)']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (16)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Select Folder']")).Click();
+
+            /////////Surface data/////////
+            FindExportButton(driver);
+            driver.FindElement(By.XPath("//*[@Name= 'Surface data ']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (17)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Select Folder']")).Click();
 
             /////////LSD IMP/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'LSD IMP']")).Click();
 
+            SetClipboardAndPaste(driver, "/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (18)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Select Folder']")).Click();
+
             /////////CAM EXPORT/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'CAM EXPORT']")).Click();
+            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (19)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
 
             /////////Z Plane/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'Z Plane']")).Click();
+            driver.FindElement(By.XPath("//*[@Name= 'Path...']")).Click();
+
+            SetClipboardAndPaste(driver, "/Window/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (20)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+            driver.FindElement(By.XPath("//*[@AutomationId= '1' and @Name= 'OK']")).Click();
 
             /////////ANSYS WorkBench/////////
             FindExportButton(driver);
             driver.FindElement(By.XPath("//*[@Name= 'ANSYS WorkBench']")).Click();
 
-            //driver.Quit();
+            SetClipboardAndPaste(driver, "/Window/Window/Pane[2]/Pane[3]/ProgressBar/Pane/ToolBar", @"D:\EXPORT_IMPORT\New folder\New folder (21)");
+
+            driver.FindElement(By.XPath("//*[@Name= 'Save']")).Click();
+
+            driver.Quit();
         }
 
         private static void Exp3DComponents(WindowsDriver driver, string savePath, string fileType)
