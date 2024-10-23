@@ -97,8 +97,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Export\ANSYS_WorkBench.cs" />
+    <Compile Include="Export\AutoGridNUMECA.cs" />
+    <Compile Include="Export\AxCFD.cs" />
+    <Compile Include="Export\CAM_Export.cs" />
+    <Compile Include="Export\Components3D.cs" />
+    <Compile Include="Export\esTurboStarCCM.cs" />
+    <Compile Include="ExportActions.cs" />
+    <Compile Include="Export\GambitFLUENT.cs" />
+    <Compile Include="Export\GeometryExternalCFD.cs" />
+    <Compile Include="Export\LSD_IMP.cs" />
+    <Compile Include="Export\ProE_IBL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Export\STL.cs" />
+    <Compile Include="Export\SurfaceData.cs" />
+    <Compile Include="Export\TurboGridCFX_FLUENT.cs" />
+    <Compile Include="Export\Z_Plane.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
