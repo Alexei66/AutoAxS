@@ -25,9 +25,6 @@ namespace ConsoleApp1
             desiredCapabilities.AddAdditionalAppiumOption("ms:WaitForAppLaunch", "20");
             driver = new WindowsDriver(appiumLocalService, desiredCapabilities);
 
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            //Thread.Sleep(2000);
-
             var fileName = "Mark15_inducer";
 
             driver.Manage().Window.Maximize();
@@ -43,9 +40,15 @@ namespace ConsoleApp1
 
             //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); // задержка 10 сек
 
+            //WebDriverWait Desktopwait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //Desktopwait.Until(pred => AddWatcherElement.Displayed);                           // задержка пока что-то не откроется
+
+            //Thread.Sleep(2000);
+
             // TODO добавить кнопку с включением 3D вида
 
             /////////TurboGrid (CFX, FLUENT)/////////
+
             FindExportButton(driver);
 
             driver.FindElement(By.XPath("//*[@Name= 'TurboGrid (CFX, FLUENT)']")).Click();
@@ -249,8 +252,6 @@ namespace ConsoleApp1
             WindowsDriver driver2 = new WindowsDriver(DesktopSession, DesktopCapabilities);
 
             var addWatcherElement = driver2.FindElement(By.XPath("//*[@Name= 'Export ...']"));
-            //WebDriverWait Desktopwait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //Desktopwait.Until(pred => AddWatcherElement.Displayed);                           // задержка пока что-то не откроется
             addWatcherElement.Click();
         }
 
